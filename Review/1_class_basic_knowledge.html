@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_class_basic_knowledge</title>
+</head>
+<body>
+    <script type="text/javascript">
+        /*
+        Summary:
+        1. 类中的构造器不是必须写的，要对实例进行初始化操作，如添加指定属性时才写。
+        2. 如果A类继承了B类，且A类中写了构造器，那么A类构造器中的super必须调用
+        3. 类中定义的方法都放在了类的原型对象上，供实例使用
+        */
+        //create Person class
+        class Person {
+            //constructor
+            constructor(name, age){
+                //构造器的this是类的实例对象
+                this.name = name
+                this.age = age
+            }
+
+            //method
+            speak(){
+                //where is speak -> 类的原型对象上（prototype）,供实例使用
+                //通过Person实例调用this，speak中的this就是Person实例
+                console.log(`I am ${this.name}, my age is ${this.age}`);  //用1旁边的`反引号
+            }
+        }
+        //create a Person instance object
+        /*
+        const p1 = new Person('tom', 18);
+        const p2 = new Person('jerry', 19);
+        console.log(p1);
+        console.log(p2);
+        // console.log(p1.speak());
+        // console.log(p2.speak());
+        p1.speak();
+        p2.speak();
+        p1.speak.call({a:1, b:2}); //undefine,显式绑定
+        */
+
+        //create Student extends Person
+        class Student extends Person {
+            constructor(name, age, grade){
+                //must call super constructor first
+                super(name, age);
+                this.grade = grade;
+                this.school = 'Google';
+            }
+
+            speak(){
+                //rewrite parent class Person.speak()
+                console.log(`I am ${this.name}, my age is ${this.age}, I am study in ${this.grade}`);  //用1旁边的`反引号
+            }
+            study(){
+                //通过Person实例调用this，study中的this就是Student实例
+                console.log(`I am studying hard`);
+            }
+        }
+
+        const s1 = new Student('Coco', 15, '高一')
+        console.log(s1);
+        s1.speak();
+        s1.study();
+    </script>    
+
+</body>
