@@ -17,6 +17,14 @@
             console.log('@');
         }
         console.log(x);
+
+        function demo(){
+            console.log(this);
+        }
+
+        demo();
+       const y =  demo.bind({a:1,b:2}) //bind返回了一个新函数,修改了this
+       y()
     </script>    
 
 </body>

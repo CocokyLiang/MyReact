@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsx_pratice.html</title>
+</head>
+<body>
+    <!-- 准备容器-->
+    <div id="test"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作dom-->
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+
+    <script type="text/babel">
+        //let that
+        //1. 创建组件
+        class Weather extends React.Component {
+            constructor(props){
+                super(props);
+                //初始化状态，多组key-value
+                this.state = {
+                    isHot:false,
+                    wind:'big'
+                }
+                //解决changeWeather中this指向问题
+                //that = this
+                //this.changeWeather = this.changeWeather.bind(this)
+                this.demo = this.changeWeather.bind(this)
+            }
+            render(){
+                //console.log(this);
+                //读取状态
+                //return <h1>Weather is very {this.state.isHot?'hot':'cool'} today</h1>
+                const {isHot} = this.state
+                //不要demo()会直接调用函数,调用组件中的方法时需要指定实例this
+                return <h1 id="title" onClick={this.demo}>Weather is very {isHot?'hot':'cool'} today</h1>
+            }
+            changeWeather(){
+                //changeWeather 放在了Weather的原型对象上，供实例使用
+                //由于changeWeather是作为onClick的毁掉，所以不是通过实例调用，为直接调用
+                //但由于类中方法默认开启use strict，所以其中的this是undefine
+                console.log("here change isHot");
+                console.log(this.state.isHot);
+                console.log(this);
+        }
+        }
+        
+        ReactDOM.render(<Weather/>, document.getElementById('test'));
+
+        //const title = document.getElementById('title');
+        /*
+        title.addEventListener('click', ()=>{
+            console.log('Title is clicked');
+        })
+        */
+       /*
+        title.onclick = ()=>{
+            console.log('Title is clicked');
+        }
+        */
+       const w = new Weather();
+       w.changeWeather();
+
+    </script>
+</body>
+</html>
