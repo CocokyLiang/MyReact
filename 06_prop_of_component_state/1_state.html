@@ -19,7 +19,9 @@
         //let that
         //1. 创建组件
         class Weather extends React.Component {
+            //构造器只调用了一次，因为实例只创建了一次
             constructor(props){
+                console.log('constructor');
                 super(props);
                 //初始化状态，多组key-value
                 this.state = {
@@ -31,14 +33,19 @@
                 //this.changeWeather = this.changeWeather.bind(this)
                 this.demo = this.changeWeather.bind(this)
             }
+
+            //render()调用了n+1次，1是初始化，n是状态更新的次数
             render(){
+                console.log("render");
                 //console.log(this);
                 //读取状态
                 //return <h1>Weather is very {this.state.isHot?'hot':'cool'} today</h1>
-                const {isHot} = this.state
+                const {isHot, wind} = this.state
                 //不要demo()会直接调用函数,调用组件中的方法时需要指定实例this
-                return <h1 id="title" onClick={this.demo}>Weather is very {isHot?'hot':'cool'} today</h1>
+                return <h1 id="title" onClick={this.demo}>Weather is very {isHot?'hot':'cool'} and {wind} wind today</h1>
             }
+
+            //render()调用了m次，点击几次调用几次
             changeWeather(){
                 //changeWeather 放在了Weather的原型对象上，供实例使用
                 //由于changeWeather是作为onClick的毁掉，所以不是通过实例调用，为直接调用
@@ -46,6 +53,17 @@
                 console.log("here change isHot");
                 console.log(this.state.isHot);
                 console.log(this);
+
+                //获取原来的isHot
+                const isHot = this.state.isHot;
+                
+                //Attention! 状态（state）不能直接更改，要借助内置API进行更改
+                //this.state.isHot = !isHot; //wrong
+                //console.log(this);
+                //console.log("changed:" + this.state.isHot);
+
+                //Attention!!状态（state）必须通过setState()修改,其更新非替换而是合并    
+                this.setState({isHot:!isHot});
         }
         }
         
