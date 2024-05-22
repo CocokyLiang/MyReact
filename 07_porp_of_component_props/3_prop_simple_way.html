@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3_prop_simple_way.html</title>
+</head>
+<body>
+    <!-- 准备容器-->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作dom-->
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+    <!-- 引入prop-types， 用于对组件标签属性进行限制-->
+    <script type="text/javascript" src="../React-js/prop-types.js"></script>
+
+    <script type="text/babel">
+        //创建组件
+        class Person extends React.Component{
+            //定义规则限制,对标签属性进行类型、必要性的限制
+            static propTypes = {
+                name: PropTypes.string.isRequired, //限制必填且只能用字符串类型
+                gender:PropTypes.string, //限制为字符串String是关键字，所以写小写string
+                age:PropTypes.number, //限制为数值
+                speak:PropTypes.func //限制为函数，function是关键字，所以需要写func
+            }
+
+            //指定默认标签属性值
+            static defaultProps = {
+                gender: 'bias',
+                age: 22,
+            }
+        
+            // state = {name:'tom', age:18, gender:'woman'}
+            render(){
+               const {name,age,gender} = this.props
+               //props在组件类里是只读的
+            //    this.props.name = 'jack' //wrong
+                return (
+                    <ul>
+                        <li>name:{name}</li>        
+                        <li>gender:{gender}</li>    
+                        <li>age:{age+1}</li>    
+                    </ul>
+                )
+            }
+        }
+        
+
+        //渲染组件到页面
+        ReactDOM.render(<Person name="Mike" age={19} gender="man" speak={speak} />, document.getElementById('test1'))
+        ReactDOM.render(<Person name="Coco"  gender="woman" />, document.getElementById('test2'))
+        const p = {name:"Ken", age:18}
+        ReactDOM.render(<Person {...p}/>, document.getElementById('test3')) // babel里...p在标签传递的情况下可以展开对象
+
+        function speak(){
+            console.log("speaking");
+        }
+    </script>
+</body>
+</html>

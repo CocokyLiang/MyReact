@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_props_basic.html</title>
+</head>
+<body>
+    <!-- 准备容器-->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作dom-->
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+
+    <script type="text/babel">
+        //创建组件
+        class Person extends React.Component{
+
+            // state = {name:'tom', age:18, gender:'woman'}
+            render(){
+                // console.log(this)    
+                /*
+                return (
+                    <ul>
+                        <li>name:{this.props.name}</li>        
+                        <li>gender:{this.props.gender}</li>    
+                        <li>age:{this.props.age}</li>    
+                    </ul>
+                )
+                */
+               const {name,age,gender} = this.props
+                return (
+                    <ul>
+                        <li>name:{name}</li>        
+                        <li>gender:{gender}</li>    
+                        <li>age:{age+1}</li>    
+                    </ul>
+                )
+            }
+        }
+        //渲染组件到页面
+        ReactDOM.render(<Person name="Jay" age={19} gender="man" />, document.getElementById('test1'))
+        ReactDOM.render(<Person name="Coco" age={18} gender="woman" />, document.getElementById('test2'))
+        const p = {name:'Ken', age:18, gender:'woman'}
+        // ReactDOM.render(<Person name={p.name} age={p.age} gender={p.gender} />, document.getElementById('test3'))
+        ReactDOM.render(<Person {...p}/>, document.getElementById('test3')) // babel里...p在标签传递的情况下可以展开对象
+    </script>
+</body>
+</html>

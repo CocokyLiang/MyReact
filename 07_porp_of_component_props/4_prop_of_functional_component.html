@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.1_prop_simple_way.html</title>
+</head>
+<body>
+    <!-- 准备容器-->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作dom-->
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+    <!-- 引入prop-types， 用于对组件标签属性进行限制-->
+    <script type="text/javascript" src="../React-js/prop-types.js"></script>
+
+    <script type="text/babel">
+        function Person(props){
+            console.log(props);
+            const {name,gender,age} = props
+            return (
+                    <ul>
+                        <li>name:{name}</li>        
+                        <li>gender:{gender}</li>    
+                        <li>age:{age+1}</li>    
+                    </ul>
+                )
+        }
+
+            //定义规则限制,对标签属性进行类型、必要性的限制
+            Person.propTypes = {
+                name: PropTypes.string.isRequired, //限制必填且只能用字符串类型.PropTypes是引入了prop-types.js
+                gender:PropTypes.string, //限制为字符串String是关键字，所以写小写string
+                age:PropTypes.number, //限制为数值
+            }
+
+            //指定默认标签属性值
+            Person.defaultProps = {
+                gender: 'bias',
+                age: 18,
+            }
+        //渲染组件到页面
+        ReactDOM.render(<Person name="Mike" gender="woman" age={18}/>, document.getElementById('test1'))
+
+    </script>
+</body>
+</html>
