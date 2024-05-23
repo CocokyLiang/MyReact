@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_string_ref</title>
+</head>
+<body>
+    <!-- 准备容器-->
+    <div id="test"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作dom-->
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component{
+            showData = () =>{
+                const {input1} = this
+                alert(input1.value)
+            }
+
+            showData2 = () =>{
+                const {input2} = this
+                alert(input2.value)
+            }
+            
+            
+            render(){
+                return (
+                    <div>
+                        <input ref={c => this.input1 = c} type="text"  placeholder="click button info data"/>&nbsp;
+                        <button ref="button100" onClick={this.showData}>click me info leftside data</button>&nbsp;
+                        <input ref={c => this.input2 = c} onBlur={this.showData2}type="text"  placeholder="lose foucus info data"/>
+
+                    </div>
+                )
+            }
+
+            
+        }
+
+        ReactDOM.render(<Demo/>, document.getElementById("test"));
+    </script>
+</body>
+</html>
