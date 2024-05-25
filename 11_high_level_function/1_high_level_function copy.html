@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>high_level_function</title>
+</head>
+<body>
+    <!-- 准备容器-->
+    <div id="test"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作dom-->
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+
+    <script type="text/babel">
+
+        /*
+                高阶函数：
+                    如果一个函数符合以下规范之一，则为高阶函数
+                    1.若函数A，接收的参数是一个函数，则函数A为高阶函数
+                    2.若函数A，调用的返回值依然是一个函数，则函数A为高阶函数
+                    常见高阶函数： Promise， setTimeout， arr.map()
+                函数的科里化：
+                    通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式
+        */
+        //创建受控组件，输入类DOM随着输入保存在state里面，用的时候从state提取
+        class Login extends React.Component{
+            //初始化状态
+            state = {
+                username: '', //用户名
+                password: '' //密码
+            }
+
+            //保存表单数据到状态中,saveForm的返回值是一个函数,该函数才是onChange的回调
+            //通过[]来获取变量字符串
+            //函数科里化
+            saveForm = (dataType) => {
+                return (event) =>{
+                    this.setState({
+                        [dataType]: event.target.value
+                    })
+                }
+            }
+            //提交表单回调
+            handleSubmit = (event) => {
+                event.preventDefault();//阻止表单提交
+                const {username,password} = this.state;  //拿到的是value
+                alert(`your username is ${username}, your password is ${password}`)
+            }
+            render(){
+                //必须把一个函数作为onChange的回调
+                return (
+                    <form action="http://www.atguigu.com" onSubmit={this.handleSubmit}>
+                        用户名: <input  onChange={this.saveForm('username')} type="text" name="username"/> 
+                        密码: <input onChange={this.saveForm('password')} type="password" name="password" />
+                        <button>Login</button>
+                    </form>
+
+                )
+            }
+        }
+
+        ReactDOM.render(<Login/>, document.getElementById("test"));
+    </script>
+</body>
+</html>
