@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsx_pratice.html</title>
+</head>
+<body>
+    <!-- 准备容器-->
+    <div id="test"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作dom-->
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+
+    <script type="text/babel">
+        //生命周期回调函数 <=> 生命周期钩子函数 <=> 生命周期函数 <=> 生命周期钩子
+
+        class Life extends React.Component {
+            state = {opacity:1}
+
+            death = () =>{
+                //卸载组件 unmount component
+                ReactDOM.unmountComponentAtNode(document.getElementById("test"));
+            }
+            //render调用的时机：初始化渲染、状态更新之后
+            render(){
+                /*
+                //只要修改state，就会调用render(1+n次)，陷入递归死锁
+                setInterval(()=>{
+                    //获取元状态
+                let {opacity} = this.state
+                //减小0.1
+                opacity -= 0.1
+                //设置新的透明度
+                if(opacity<=0) opacity = 1
+                
+                this.setState({opacity}) 
+                },200)
+                */
+
+                return(
+                    <div>
+                        <h2 style={{opacity:this.state.opacity}}>React学不会怎么办</h2>
+                        <button onClick={this.death}>不活了</button>
+                        <button onClick={this.action}>change start</button>
+                    </div>
+                )
+            }
+        
+            //React在完成加载后实例对象调用该方法
+            //组件挂载完毕
+            componentDidMount(){
+                                 //只要修改state，就会调用render，陷入递归死锁
+                this.timer = setInterval(()=>{
+                //获取元状态
+                let {opacity} = this.state
+                //减小0.1
+                opacity -= 0.1
+                //设置新的透明度
+                if(opacity<=0) opacity = 1
+                
+                this.setState({opacity}) 
+                },200)
+            }
+
+            //组件将要卸载时
+            componentWillUnmount(){
+                //清楚定时器
+                clearInterval(this.timer)
+            }
+        }
+        //mount component
+        ReactDOM.render(<Life/>, document.getElementById('test'));
+    </script>
+</body>
+</html>
