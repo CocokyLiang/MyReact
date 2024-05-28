@@ -17,7 +17,19 @@
 
     <script type="text/babel">
         /*
-
+            1. 初始化阶段：由ReactDOM.render()触发 -- 初次渲染
+                1) constructor()
+                2) getDerivedStateFromProps()
+                3) render()
+                4) componentDidMount() ===> widely used, 用于做一些初始化的事情，e.g. 开启定时器、发送网络请求、订阅消息
+            2. 更新阶段： 由组件内部this.setState()或由父组件render触发
+                1) getDrivedStateFromProps()
+                2) shouldComponentUpdate()
+                3) render()  ===> must used
+                4) getSnapshotBeforeUpdate()
+                5) componentDidUpdate()
+            3. 卸载组件：由ReactDOM.componentUnmountAtNode()触发
+                1）componentWillUnmount() ===> widely used,用于善后工作，e.g. 关闭定时器、取消订阅消息
         */
 
 
@@ -47,9 +59,25 @@
         }
 
         //组件将要挂载时,必须加UNSAFE_， 新生命周期即将弃用
-        UNSAFE_componentWillMount(){
-            console.log("Count-componentWillMount");
+        // UNSAFE_componentWillMount(){
+        //     console.log("Count-componentWillMount");
+        // }
+
+        //必须用static修饰，且返回状态对象.可用于state的值任何时候都取决于props值
+        // static getDerivedStateFromProps(props,state){
+        //     console.log("Count-getDerivedStateFromProps", props,state);
+        //     //props = {count:199}
+        //     return null;
+        //     // return props
+        // }
+
+
+        //在更新之前获取快照
+        getSnapshotBeforeUpdate(){
+            console.log("Count-getSnapshotBeforeUpdate");
+            return 'school'
         }
+
 
        //组件挂载完毕的钩子
        componentDidMount(){
@@ -85,18 +113,19 @@
         }
 
         //组件将要更新的钩子，必须加UNSAFE_， 新生命周期即将弃用
-        UNSAFE_componentWillUpdate(){
-            console.log("Count-componentWillUpdate");
-        }
+        // UNSAFE_componentWillUpdate(){
+        //     console.log("Count-componentWillUpdate");
+        // }
 
          //组件更新完毕的钩子
-        componentDidUpdate(){
-            console.log("Count-componentDidUpdate");
+        componentDidUpdate(preProps,preState,snapshotValue){
+            console.log("Count-componentDidUpdate",preProps,preState,snapshotValue);
         }
 
 
        }
 
+       /*
        //父组件
        class A extends React.Component{
 
@@ -153,10 +182,10 @@
             }
 
         }
+        */
+       ReactDOM.render(<Count count={199}/>, document.getElementById('test'));
 
-    //    ReactDOM.render(<Count/>, document.getElementById('test'));
-
-       ReactDOM.render(<A/>, document.getElementById('test'));
+    //    ReactDOM.render(<A/>, document.getElementById('test'));
     </script>
 </body>
 </html>
